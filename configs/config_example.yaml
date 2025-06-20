@@ -1,0 +1,7 @@
+image_name: nvidia/cuda:11.6.1-cudnn8-devel-ubuntu20.04
+container_name: cuda_container_test
+bind_mounts:
+  - src: /home/charlie
+    dst: /home/charlie
+  - src: /media
+    dst: /harddrive

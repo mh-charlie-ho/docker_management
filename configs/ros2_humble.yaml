@@ -1,0 +1,5 @@
+image_name: ros:humble-ros-base
+container_name: ros2_test
+bind_mounts:
+  - src: /media
+    dst: /harddrive
