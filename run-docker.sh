@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# set -e
+set -u
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CONFIG_DIR="$SCRIPT_DIR/configs"
 
