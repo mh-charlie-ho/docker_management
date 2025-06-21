@@ -1,5 +1,7 @@
 image_name: ros:humble-ros-base
-container_name: ros2_test
+container_name: ros2_humble
 bind_mounts:
+  - src: /home/charlie/charlie_ws/
+    dst: /charlie_ws
   - src: /media
-    dst: /harddrive
+    dst: /data
