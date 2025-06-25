@@ -19,5 +19,8 @@ This is a convenient script for creating a container that supports GUI display a
 ```
 . run-docker.sh
 ```
+**build dockerfile**
 
-
+```
+. build-dockerfile.sh
+```
