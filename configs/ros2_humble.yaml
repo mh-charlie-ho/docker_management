@@ -1,5 +1,5 @@
-image_name: ros:humble-ros-base
-container_name: ros2_humble
+image_name: ros2-humble:charlie
+container_name: ros2-humble-v1
 bind_mounts:
   - src: /home/charlie/charlie_ws/
     dst: /charlie_ws

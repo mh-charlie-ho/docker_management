@@ -12,7 +12,7 @@ fi
 DEPENDENCIES="$(dirname "$DOCKER_FILE")"
 
 # read -rp "Enter image name (e.g., ros2-humble:test): " IMAGE_NAME
-IMAGE_NAME=ros2-humble:test
+IMAGE_NAME=ros2-humble:charlie
 
 echo "Building image: $IMAGE_NAME"
 echo "Dockerfile: $DOCKER_FILE"
