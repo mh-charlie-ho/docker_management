@@ -24,3 +24,26 @@ This is a convenient script for creating a container that supports GUI display a
 ```
 . build-dockerfile.sh
 ```
+
+
+## Structure
+
+```
+.
+├── build-dockerfile.sh
+├── configs
+│   ├── config_example.yaml
+│   ├── icp_flow.yaml
+│   └── ros2_humble.yaml
+├── dockerfiles
+│   └── icpflow
+│       └── dockerfile
+├── envs
+│   ├── build-env.sh
+│   └── dockerctl.yaml
+├── README.md
+└── run-docker.sh
+```
+- dockerfiles: Additional Docker files (not directly related to this repository)
+- configs: Configuration files for the container
+- envs: Environment scripts required to run this repository
