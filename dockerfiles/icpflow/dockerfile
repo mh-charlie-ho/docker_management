@@ -1,0 +1,25 @@
+# This is for https://github.com/yanconglin/ICP-Flow?tab=readme-ov-file
+
+FROM nvidia/cuda:11.6.1-cudnn8-devel-ubuntu20.04
+SHELL ["/bin/bash", "-c"]
+
+RUN apt update && \
+    apt install -y curl gnupg lsb-release vim python3-pip sudo && \
+    apt update && \
+    apt clean && rm -rf /var/lib/apt/lists/*
+
+RUN groupadd -g 1000 user && \
+    useradd -m -u 1000 -g 1000 -s /bin/bash user && \
+    usermod -aG sudo user && \
+    echo "user ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/user && \
+    chmod 0440 /etc/sudoers.d/user && \
+    echo '' >> /home/user/.bashrc && \
+    echo '# Set container prompt' >> /home/user/.bashrc && \
+    echo 'export PS1="(container) $PS1"' >> /home/user/.bashrc && \
+    chown user:user /home/user/.bashrc
+
+ENV TERM xterm-256color
+USER user
+
+WORKDIR /
+CMD ["bash"]

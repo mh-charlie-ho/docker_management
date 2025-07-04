@@ -1,0 +1,9 @@
+image_name: icp-flow:charlie
+container_name: icp-flow-v1
+bind_mounts:
+  - src: /home/charlie/charlie_ws
+    dst: /charlie_ws
+  - src: /home/charlie/source_code2/ICP-Flow
+    dst: /source_code2/ICP-Flow
+  - src: /media/charlie
+    dst: /data
