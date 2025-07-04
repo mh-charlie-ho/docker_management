@@ -45,5 +45,10 @@ This is a convenient script for creating a container that supports GUI display a
 └── run-docker.sh
 ```
 - dockerfiles: Additional Docker files (not directly related to this repository)
+
+    **Note:** Due to the nature of Dockerfile builds, files should be placed within a specifically named directory.
+    
 - configs: Configuration files for the container
+
+
 - envs: Environment scripts required to run this repository
