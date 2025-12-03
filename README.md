@@ -4,7 +4,7 @@
 
 It is recommended to use the provided Conda dependency file to create a virtual environment for running the Bash script.
 ```
-./envs/build-snv.sh
+./envs/build-env.sh
 
 conda activate dockerctl
 ```
