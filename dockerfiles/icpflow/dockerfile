@@ -3,53 +3,66 @@
 FROM nvidia/cuda:11.6.1-cudnn8-devel-ubuntu20.04
 SHELL ["/bin/bash", "-c"]
 
+# 避免 tzdata 互動
+ENV DEBIAN_FRONTEND=noninteractive
+
 # -----------------------------
 # 1. 安裝基本套件
 # -----------------------------
-    RUN apt update && \
-    apt install -y wget curl gnupg lsb-release vim python3-pip sudo cmake git libgl1 ninja && \
+RUN apt update && \
+    apt install -y wget curl gnupg lsb-release vim-gtk3 python3-pip sudo cmake git libgl1 ninja-build && \
     apt clean && rm -rf /var/lib/apt/lists/*
 
 # -----------------------------
 # 2. 建立使用者 user
 # -----------------------------
 RUN groupadd -g 1000 user && \
-useradd -m -u 1000 -g 1000 -s /bin/bash user && \
-usermod -aG sudo user && \
-echo "user ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/user && \
-chmod 0440 /etc/sudoers.d/user
+    useradd -m -u 1000 -g 1000 -s /bin/bash user && \
+    usermod -aG sudo user && \
+    echo "user ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/user && \
+    chmod 0440 /etc/sudoers.d/user
+
+# -----------------------------
+# 3. Switch to user
+# -----------------------------
+USER user 
 
 # ----------------------------
-# 3. 安裝 Miniconda
+# 4. 安裝 Miniconda
 # ----------------------------- 
 ENV CONDA_DIR=/home/user/miniconda3
+ENV PATH=$CONDA_DIR/bin:$PATH
+
 RUN mkdir -p $CONDA_DIR && \
     wget -q https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh && \
     bash /tmp/miniconda.sh -b -u -p $CONDA_DIR && \
-    rm /tmp/miniconda.sh
+    rm /tmp/miniconda.sh && \
+    /bin/bash -c "$CONDA_DIR/bin/conda init bash"
 
-# -----------------------------
-# 4. 設定 Conda
-# -----------------------------
-ENV PATH=$CONDA_DIR/bin:$PATH
-RUN echo '# Set conda env' >> /home/user/.bashrc && \
-    echo '. $CONDA_DIR/etc/profile.d/conda.sh' >> /home/user/.bashrc && \
-    echo 'conda activate base' >> /home/user/.bashrc && \
-    echo 'auto_activate_base: true' > /home/user/.condarc && \
-    echo 'changeps1: false' >> /home/user/.condarc
-    
 # -----------------------------
 # 5. 設定 shell 
 # -----------------------------
 RUN echo '# Set container prompt' >> /home/user/.bashrc && \
-    echo 'export PS1="(container) $PS1"' >> /home/user/.bashrc && \    
-    chown -R user:user /home/user
+    echo 'export PS1="(container) $PS1"' >> /home/user/.bashrc    
+    # chown -R user:user /home/user
 
 # -----------------------------
-# 6. 設定預設執行環境
+# 6. 設定 Conda
+# -----------------------------
+# ENV PATH=$CONDA_DIR/bin:$PATH
+# RUN echo '# Set conda env' >> /home/user/.bashrc && \
+#     echo '. $CONDA_DIR/etc/profile.d/conda.sh' >> /home/user/.bashrc && \
+#     echo 'conda activate base' >> /home/user/.bashrc && \
+#     echo 'auto_activate_base: true' > /home/user/.condarc && \
+#     echo 'changeps1: false' >> /home/user/.condarc 
+#     echo 'if [ -n "$CONDA_DEFAULT_ENV" ]; then '>> /home/user/.bashrc && \
+#     echo '    PS1="($CONDA_DEFAULT_ENV) $PS1" ' >> /home/user/.bashrc && \
+#     echo 'fi' >> /home/user/.bashrc
+
+# -----------------------------
+# 7. 設定預設執行環境
 # -----------------------------
 ENV TERM xterm-256color
-USER user
 
-WORKDIR /
-CMD ["bash"]
+WORKDIR /home/user
+CMD ["bash", "-l"]
