@@ -6,16 +6,28 @@ set -u
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CONFIG_DIR="$SCRIPT_DIR/configs"
 
+echo "Scanning configs in: $CONFIG_DIR"
+CONFIG_NAME=$(
+    find "$CONFIG_DIR" -maxdepth 1 -name "*.yaml" \
+    | xargs -n1 basename \
+    | sed 's/\.yaml$//' \
+    | fzf --prompt="Select config: " --height=40% --border --reverse
+)
+if [[ -z "$CONFIG_NAME" ]]; then
+    echo "No config selected. Abort."
+    exit 1
+fi
+
 if ! command -v yq &>/dev/null; then
     echo "'yq' is required but not installed. See https://github.com/mikefarah/yq"
     return 1 2>/dev/null || exit 1
 fi
 
-read -p "Enter config name (e.g., config_example): " CONFIG_NAME
+# read -p "Enter config name (e.g., config_example): " CONFIG_NAME
 CONFIG_FILE="$CONFIG_DIR/$CONFIG_NAME.yaml"
 
 if [ ! -f "$CONFIG_FILE" ]; then
-    echo "Config file $CONFIG_FILE not found."
+    echo "Config file not found: $CONFIG_FILE"
     return 1 2>/dev/null || exit 1
 fi
 echo "CONFIG_FILE: $CONFIG_FILE"
