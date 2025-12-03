@@ -1,0 +1,7 @@
+image_name: argo2-sf:charlie
+container_name: argo2-sf-v1
+bind_mounts:
+  - src: /home/charlie/charlie_ws
+    dst: /charlie_ws
+  - src: /media/charlie
+    dst: /data

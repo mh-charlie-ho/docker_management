@@ -1,0 +1,7 @@
+image_name: grid-for-polygons:latest
+container_name: grid-for-polygons-v1
+bind_mounts:
+  - src: /home/charlie
+    dst: /home/charlie
+  - src: /media
+    dst: /harddrive
